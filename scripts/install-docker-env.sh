@@ -1,12 +1,14 @@
 #!/bin/bash
 
+SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
 #Dot env
-if [[ ! -f .env ]]; then
+if [[ ! -f "${SCRIPT_PATH}/.env" ]]; then
     echo ".env file not found! Installation was stopped";
     exit 1
 else
   set -a
-  . .env
+  . "${SCRIPT_PATH}/.env"
   set +a
 fi;
 
@@ -35,6 +37,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 #Look around
+cd "${SCRIPT_PATH}/..";
+
 if [[ ! -d 'wp-content' ]]; then
     if [[ $WP_CONTENT_IGNORE < 1 ]]; then
         echo "wp-contnet not found";
