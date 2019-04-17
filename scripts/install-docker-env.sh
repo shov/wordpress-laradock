@@ -114,4 +114,8 @@ curl "https://wordpress.org/wordpress-${WP_VERSION}.zip" -o wp.zip \
     && rm -rf ./wordpress/
 
 #Front
-npm i
+cd "${SCRIPT_PATH}/..";
+
+if [[ -e "package.json" ]] || [[ -e "package-lock.json" ]]; then
+    npm i
+fi;
