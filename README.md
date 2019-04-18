@@ -35,6 +35,8 @@ To start and stop the containers:
 `./scripts/start-docker.sh`, 
 `./scripts/stop-docker.sh`
 
+**Actually it won't work without local ssl certs for now because nginx conf expects that certs files. Will fix it**
+
 ### Localhost needs more
 
 To allow SSL (if it set on in `.env`) for localhost you have got to add a self-signed root certificate as trusted in your OS. The certificate is placed in project root `certs-local/rootCA.pem`.
