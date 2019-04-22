@@ -7,7 +7,7 @@ Laradock based docker environment for Wordpress site
 
 At first clone the repo somewhere on your machine.
 
-In order to run the scripts on Mac or Linux use the terminal, on Windows use GitBash.
+In order to run the scripts on Mac or Linux use the terminal, on Windows use [GitBash](https://gitforwindows.org/).
 
 The first step is cover (inject) an existing project / empty folder (of a project that will be implemented in a time) with the scripts.
 
