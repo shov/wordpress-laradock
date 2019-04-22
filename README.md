@@ -54,7 +54,7 @@ Mac:
 * Call Spotlight search and type 'Keychain Access', press Return.
 * Choose Category of Certificates
 * In top menu go File->Import Items… and pick up the sert (`rootCA.pem`)
-* It should appear in the list as ‘EverysightDevLocalhost’, double click it
+* It should appear in the list as ‘<name of project from .env here>’, double click it
 * Expand section of Trust and set ‘Always Trust’, close the window, it’s going to require user password
 * Exit this app, done
 
