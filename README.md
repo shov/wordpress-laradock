@@ -69,3 +69,7 @@ As it’s the first installation and there is no any DB data and the WP prompts 
 * host: mariadb prefix: `_wp` .. actually it's up to you.
 
 Done 
+
+### Xdebug with PHPStorm
+
+![image](https://user-images.githubusercontent.com/1494325/56646188-c435f780-6687-11e9-84d9-0cf69822ea62.png)
