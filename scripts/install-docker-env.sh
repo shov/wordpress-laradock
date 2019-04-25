@@ -66,6 +66,20 @@ git clone https://github.com/laradock/laradock.git \
 
 cp ../scripts/openssl-config/nginx-localhost.conf ./nginx/sites/default.conf
 
+if [[ ${EMIT_LOCAL_SSL} < 1 ]]; then
+    if hash winpty 2>/dev/null; then
+        sed -i 's+ ssl_certificate+ #ssl_certificate+' ./nginx/sites/default.conf
+    else
+        sed -i '' 's+ ssl_certificate+ #ssl_certificate+' ./nginx/sites/default.conf
+    fi;
+else
+    if hash winpty 2>/dev/null; then
+        sed -i 's+ #ssl_certificate+ ssl_certificate+' ./nginx/sites/default.conf
+    else
+        sed -i '' 's+ #ssl_certificate+ ssl_certificate+' ./nginx/sites/default.conf
+    fi;
+fi;
+
 if hash winpty 2>/dev/null; then
     cp ../scripts/mysql-config/my.cnf ./mysql/my.cnf
     sed -i 's+ARG MYSQL_VERSION=latest+ARG MYSQL_VERSION=8.0+' ./mysql/Dockerfile
