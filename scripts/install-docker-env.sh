@@ -88,6 +88,11 @@ fi;
 #XDEBUG
 if [[ ${XDEBUG} > 0 ]]; then
     cp ../scripts/xdebug-config/xdebug.ini ./php-fpm/xdebug.ini
+    mkdir ../xdebug_4mk2m35paQ2 \
+        && chmod 777 ../xdebug_4mk2m35paQ2 \
+        && mkdir ../xdebug_4mk2m35paQ2/profiling \
+        && chmod 777 ../xdebug_4mk2m35paQ2/profiling
+
     if hash winpty 2>/dev/null; then
         sed -i 's+XDEBUG=false+XDEBUG=true+' ./.env
         sed -i 's+pecl install xdebug;+pecl install xdebug-2.6.0;+' ./php-fpm/Dockerfile
