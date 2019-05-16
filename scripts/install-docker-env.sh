@@ -86,12 +86,12 @@ if hash winpty 2>/dev/null; then
 fi;
 
 #XDEBUG
-if [[ ${XDEBUG} > 0 ]]; then
+if [[ ${XDEBUG} > 0 ]] && [[ ! -z ${XDEBUG_ARTIFACTS} ]]; then
     cp ../scripts/xdebug-config/xdebug.ini ./php-fpm/xdebug.ini
-    mkdir ../xdebug_4mk2m35paQ2 \
-        && chmod 777 ../xdebug_4mk2m35paQ2 \
-        && mkdir ../xdebug_4mk2m35paQ2/profiling \
-        && chmod 777 ../xdebug_4mk2m35paQ2/profiling
+    mkdir -d "../${XDEBUG_ARTIFACTS}" \
+        && chmod 777 "../${XDEBUG_ARTIFACTS}" \
+        && mkdir "../${XDEBUG_ARTIFACTS}/profiling" \
+        && chmod 777 "../${XDEBUG_ARTIFACTS}/profiling"
 
     if hash winpty 2>/dev/null; then
         sed -i 's+XDEBUG=false+XDEBUG=true+' ./.env
