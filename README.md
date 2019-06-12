@@ -29,7 +29,7 @@ Then make installation:
 
 _This script has a list of options:_
 * `-n|--no-theme-required` do not require wp-content dir exists
-* `-f|--force-reinstall reinstall`, remove laradock folder and perform the whole script again
+* `-f|--force-reinstall` reinstall, remove laradock folder and perform the whole script again
 * `--skip-wp-install` do not download wordpress itself
 * `--skip-composer-install` do not run composer install anyway
 * `--skip-npm-install` do not run npm install anyway
