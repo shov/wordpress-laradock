@@ -28,11 +28,11 @@ Then make installation:
 `./scripts/install-docker-env.sh`
 
 _This script has a list of options:_
-* -n|--no-theme-required do not require wp-content dir exists
-* -f|--force-reinstall reinstall, remove laradock folder and perform the whole script again
-* --skip-wp-install do not download wordpress itself
-* --skip-composer-install do not run composer install anyway
-* --skip-npm-install do not run npm install anyway
+* `-n|--no-theme-required` do not require wp-content dir exists
+* `-f|--force-reinstall reinstall`, remove laradock folder and perform the whole script again
+* `--skip-wp-install` do not download wordpress itself
+* `--skip-composer-install` do not run composer install anyway
+* `--skip-npm-install` do not run npm install anyway
 
 Issues: 
 * if there is no wp-content folder that means no wordpress at all, so you might loss the path but if you don't and it's just new project from scratch try again with -n option.
