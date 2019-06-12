@@ -16,6 +16,9 @@ fi;
 POSITIONAL=()
 WP_CONTENT_IGNORE=0
 LARADOCK_EXISTS_IGNORE=0
+SKIP_WP_INSTALL=0
+SKIP_COMPOSER_I=0
+SKIP_NPM_I=0
 
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -27,6 +30,18 @@ while [[ $# -gt 0 ]]; do
         ;;
         -f|--force-reinstall)
         LARADOCK_EXISTS_IGNORE=1
+        shift
+        ;;
+        --skip-wp-install)
+        SKIP_WP_INSTALL=1
+        shift
+        ;;
+        --skip-composer-install)
+        SKIP_COMPOSER_I=1
+        shift
+        ;;
+        --skip-npm-install)
+        SKIP_NPM_I=1
         shift
         ;;
         *)
@@ -127,14 +142,38 @@ fi;
 cd ..
 
 #Wordpress
-curl "https://wordpress.org/wordpress-${WP_VERSION}.zip" -o wp.zip \
-    && unzip wp.zip \
-    && yes | cp -rf ./wordpress/* ./ \
-    && rm -rf ./wordpress/
+if [[ $SKIP_WP_INSTALL < 1 ]]; then
+    curl "https://wordpress.org/wordpress-${WP_VERSION}.zip" -o wp.zip \
+        && unzip wp.zip \
+        && yes | cp -rf ./wordpress/* ./ \
+        && rm -rf ./wordpress/ \
+        && echo "√ WP ${WP_VERSION} has been installed"
+else
+    echo "√ WP Installation is skipped"
+fi;
 
-#Front
 cd "${SCRIPT_PATH}/..";
 
-if [[ -e "package.json" ]] || [[ -e "package-lock.json" ]]; then
-    npm i
+#Composer
+if [[ $SKIP_COMPOSER_I < 0 ]]; then
+    if hash composer 2>/dev/null && [[ -e "composer.json"  ||  -e "composer.lock" ]]; then
+        composer install \
+            && echo "√ Composer dependencies installation is done"
+    else
+        echo "√ Cant perform composer install, skipped. There is no composer or composer files."
+    fi;
+else
+    echo "√ Composer is skipped"
+fi;
+
+#Front
+if [[ $SKIP_NPM_I < 0 ]]; then
+    if hash npm 2>/dev/null && [[ -e "package.json" ||  -e "package-lock.json" ]]; then
+        npm i \
+            && echo "√ NPM dependencies installation is done"
+    else
+        echo "√ Cant perform npm i, skipped. There is no npm or package files."
+    fi;
+else
+    echo "√ NPM is skipped"
 fi;
