@@ -155,7 +155,7 @@ fi;
 cd "${SCRIPT_PATH}/..";
 
 #Composer
-if [[ $SKIP_COMPOSER_I < 0 ]]; then
+if [[ $SKIP_COMPOSER_I < 1 ]]; then
     if hash composer 2>/dev/null && [[ -e "composer.json"  ||  -e "composer.lock" ]]; then
         composer install \
             && echo "√ Composer dependencies installation is done"
@@ -167,7 +167,7 @@ else
 fi;
 
 #Front
-if [[ $SKIP_NPM_I < 0 ]]; then
+if [[ $SKIP_NPM_I < 1 ]]; then
     if hash npm 2>/dev/null && [[ -e "package.json" ||  -e "package-lock.json" ]]; then
         npm i \
             && echo "√ NPM dependencies installation is done"
