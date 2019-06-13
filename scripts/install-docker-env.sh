@@ -103,7 +103,7 @@ fi;
 #XDEBUG
 if [[ ${XDEBUG} > 0 ]] && [[ ! -z ${XDEBUG_ARTIFACTS} ]]; then
     cp ../scripts/xdebug-config/xdebug.ini ./php-fpm/xdebug.ini
-    mkdir -d "../${XDEBUG_ARTIFACTS}" \
+    mkdir -p "../${XDEBUG_ARTIFACTS}" \
         && chmod 777 "../${XDEBUG_ARTIFACTS}" \
         && mkdir "../${XDEBUG_ARTIFACTS}/profiling" \
         && chmod 777 "../${XDEBUG_ARTIFACTS}/profiling"
