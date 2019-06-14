@@ -156,15 +156,27 @@ cd "${SCRIPT_PATH}/..";
 
 #Composer
 if [[ $SKIP_COMPOSER_I < 1 ]]; then
-    if hash composer 2>/dev/null && [[ -e "composer.json"  ||  -e "composer.lock" ]]; then
-        composer install \
-            && echo "√ Composer dependencies installation is done"
+    if [[ -e "composer.json"  ||  -e "composer.lock" ]]; then
+        if hash winpty 2>/dev/null; then
+            cd laradock \
+                    && docker-compose up -d --build workspace \
+                    && winpty docker-compose exec workspace bash -c "composer install" \
+                    && echo "√ Composer dependencies installation is done"
+            docker-compose down
+        else
+            cd laradock \
+                && docker-compose up -d --build workspace \
+                && docker-compose exec workspace composer install \
+                    && echo "√ Composer dependencies installation is done"
+            docker-compose down
+        fi;
     else
         echo "√ Cant perform composer install, skipped. There is no composer or composer files."
     fi;
 else
     echo "√ Composer is skipped"
 fi;
+cd "${SCRIPT_PATH}/..";
 
 #Front
 if [[ $SKIP_NPM_I < 1 ]]; then
