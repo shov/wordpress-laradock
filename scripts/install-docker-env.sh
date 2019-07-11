@@ -125,6 +125,9 @@ if [[ ${XDEBUG} > 0 ]]; then
          && docker-compose down
 fi;
 
+#Build workspace without cache
+docker-compose build --no-cache workspace && docker-compose down
+
 cd ..
 
 #OpenSSL for localhost
