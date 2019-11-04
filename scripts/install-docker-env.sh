@@ -77,7 +77,7 @@ fi;
 git clone https://github.com/laradock/laradock.git \
 	&& cd laradock \
 	&& git checkout "${LARADOCK_VERSION}" \
-	&& cat ./env-example | sed "s+DATA_PATH_HOST=~/\.laradock/data+DATA_PATH_HOST=\./data+" > ./.env
+  && < ./env-example sed "s+DATA_PATH_HOST=~/\.laradock/data+DATA_PATH_HOST=\./data+" > ./.env
 
 cp ../scripts/openssl-config/nginx-localhost.conf ./nginx/sites/default.conf
 
