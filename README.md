@@ -73,7 +73,8 @@ As it’s the first installation and there is no any DB data and the WP prompts 
 * database name: `default` 
 * database user: `default` , on Windows you might need to type `root`
 * password: `secret` , on Windows you might need to type `root`
-* host: mariadb prefix: `_wp` .. actually it's up to you.
+* host: `mariadb`
+* prefix: `_wp` .. actually it's up to you.
 
 Done 
 
