@@ -42,6 +42,9 @@ To start and stop the containers:
 `./scripts/start-docker.sh`, 
 `./scripts/stop-docker.sh`
 
+_This script `./scripts/start-docker.sh` has a list of options:_
+* `--phpmyadmin` run phpmyadmin container
+
 **Actually it won't work without local ssl certs for now because nginx conf expects that certs files. Will fix it**
 
 ### Localhost needs more

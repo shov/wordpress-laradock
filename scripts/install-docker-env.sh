@@ -90,6 +90,7 @@ git clone https://github.com/laradock/laradock.git \
   && < ./env-example sed "s+DATA_PATH_HOST=~/\.laradock/data+DATA_PATH_HOST=\./data+" > ./.env
 
 cp ../scripts/openssl-config/nginx-localhost.conf ./nginx/sites/default.conf
+cp ../scripts/openssl-config/apache2-localhost.conf ./apache2/sites/default.apache.conf
 
 if [[ ${EMIT_LOCAL_SSL} -lt 1 ]]; then
     if hash winpty 2>/dev/null; then
