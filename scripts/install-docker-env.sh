@@ -12,6 +12,16 @@ else
   set +a
 fi;
 
+if ! [ -x "$(command -v git)" ]; then
+  echo 'Error: git is not installed.' >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v unzip)" ]; then
+  echo 'Error: unzip is not installed.' >&2
+  exit 1
+fi
+
 #Args
 POSITIONAL=()
 WP_CONTENT_IGNORE=0
