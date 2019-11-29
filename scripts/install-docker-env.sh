@@ -12,6 +12,16 @@ else
   set +a
 fi;
 
+if ! [ -x "$(command -v git)" ]; then
+  echo 'Error: git is not installed.' >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v unzip)" ]; then
+  echo 'Error: unzip is not installed.' >&2
+  exit 1
+fi
+
 #Args
 POSITIONAL=()
 WP_CONTENT_IGNORE=0
@@ -55,7 +65,7 @@ done
 cd "${SCRIPT_PATH}/..";
 
 if [[ ! -d 'wp-content' ]]; then
-    if [[ $WP_CONTENT_IGNORE < 1 ]]; then
+    if [[ $WP_CONTENT_IGNORE -lt 1 ]]; then
         echo "wp-contnet not found";
         echo "Theme wasn't created yet? Run it again with -n flag"
         echo "Wrong call patch? Run it from site root!"
@@ -64,7 +74,7 @@ if [[ ! -d 'wp-content' ]]; then
 fi;
 
 if [[ -d 'laradock' ]]; then
-    if [[ $LARADOCK_EXISTS_IGNORE < 1 ]]; then
+    if [[ $LARADOCK_EXISTS_IGNORE -lt 1 ]]; then
         echo "Laradock folder already exists. Looks like it has been installed!"
         echo "To force reinstall run it again wit -f flag"
         exit 1
@@ -77,11 +87,11 @@ fi;
 git clone https://github.com/laradock/laradock.git \
 	&& cd laradock \
 	&& git checkout "${LARADOCK_VERSION}" \
-	&& cat ./env-example | sed "s+DATA_PATH_HOST=~/\.laradock/data+DATA_PATH_HOST=\./data+" > ./.env
+  && < ./env-example sed "s+DATA_PATH_HOST=~/\.laradock/data+DATA_PATH_HOST=\./data+" > ./.env
 
 cp ../scripts/openssl-config/nginx-localhost.conf ./nginx/sites/default.conf
 
-if [[ ${EMIT_LOCAL_SSL} < 1 ]]; then
+if [[ ${EMIT_LOCAL_SSL} -lt 1 ]]; then
     if hash winpty 2>/dev/null; then
         sed -i 's+ ssl_certificate+ #ssl_certificate+' ./nginx/sites/default.conf
     else
@@ -101,7 +111,7 @@ if hash winpty 2>/dev/null; then
 fi;
 
 #XDEBUG
-if [[ ${XDEBUG} > 0 ]] && [[ ! -z ${XDEBUG_ARTIFACTS} ]]; then
+if [[ ${XDEBUG} -gt 0 ]] && [[ -n ${XDEBUG_ARTIFACTS} ]]; then
     cp ../scripts/xdebug-config/xdebug.ini ./php-fpm/xdebug.ini
     mkdir -p "../${XDEBUG_ARTIFACTS}" \
         && chmod 777 "../${XDEBUG_ARTIFACTS}" \
@@ -119,7 +129,7 @@ fi;
 
 docker-compose build --no-cache php-fpm && docker-compose down
 
-if [[ ${XDEBUG} > 0 ]]; then
+if [[ ${XDEBUG} -gt 0 ]]; then
      docker-compose up -d --build php-fpm \
          && ./php-fpm/xdebug start \
          && docker-compose down
@@ -145,11 +155,12 @@ fi;
 cd ..
 
 #Wordpress
-if [[ $SKIP_WP_INSTALL < 1 ]]; then
+if [[ $SKIP_WP_INSTALL -lt 1 ]]; then
     curl "https://wordpress.org/wordpress-${WP_VERSION}.zip" -o wp.zip \
         && unzip wp.zip \
         && yes | cp -rf ./wordpress/* ./ \
         && rm -rf ./wordpress/ \
+        && rm wp.zip \
         && echo "√ WP ${WP_VERSION} has been installed"
 else
     echo "√ WP Installation is skipped"
@@ -158,7 +169,7 @@ fi;
 cd "${SCRIPT_PATH}/..";
 
 #Composer
-if [[ $SKIP_COMPOSER_I < 1 ]]; then
+if [[ $SKIP_COMPOSER_I -lt 1 ]]; then
     if [[ -e "composer.json"  ||  -e "composer.lock" ]]; then
         if hash winpty 2>/dev/null; then
             cd laradock \
@@ -182,7 +193,7 @@ fi;
 cd "${SCRIPT_PATH}/..";
 
 #Front
-if [[ $SKIP_NPM_I < 1 ]]; then
+if [[ $SKIP_NPM_I -lt 1 ]]; then
     if hash npm 2>/dev/null && [[ -e "package.json" ||  -e "package-lock.json" ]]; then
         npm i \
             && echo "√ NPM dependencies installation is done"

@@ -73,12 +73,15 @@ As it’s the first installation and there is no any DB data and the WP prompts 
 * database name: `default` 
 * database user: `default` , on Windows you might need to type `root`
 * password: `secret` , on Windows you might need to type `root`
-* host: mariadb prefix: `_wp` .. actually it's up to you.
+* host: `mariadb`, on Windows it's `mysql`
+* prefix: `_wp` .. actually it's up to you.
 
 Done 
 
 ### Xdebug with PHPStorm
 
 ![image](https://user-images.githubusercontent.com/1494325/56646188-c435f780-6687-11e9-84d9-0cf69822ea62.png)
+
+<sup>*</sup>Perhaps you should change php-fpm port form 9000 to something else
 
 [Laradock github](https://github.com/laradock/laradock)
