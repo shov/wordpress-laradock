@@ -94,14 +94,18 @@ cp ../scripts/openssl-config/nginx-localhost.conf ./nginx/sites/default.conf
 if [[ ${EMIT_LOCAL_SSL} -lt 1 ]]; then
     if hash winpty 2>/dev/null; then
         sed -i 's+ ssl_certificate+ #ssl_certificate+' ./nginx/sites/default.conf
+        sed -i 's+ listen 443 ssl+ #listen 443 ssl+' ./nginx/sites/default.conf
     else
         sed -i '' 's+ ssl_certificate+ #ssl_certificate+' ./nginx/sites/default.conf
+        sed -i '' 's+ listen 443 ssl+ #listen 443 ssl+' ./nginx/sites/default.conf
     fi;
 else
     if hash winpty 2>/dev/null; then
         sed -i 's+ #ssl_certificate+ ssl_certificate+' ./nginx/sites/default.conf
+        sed -i 's+ #listen 443 ssl+ listen 443 ssl+' ./nginx/sites/default.conf
     else
         sed -i '' 's+ #ssl_certificate+ ssl_certificate+' ./nginx/sites/default.conf
+        sed -i '' 's+ #listen 443 ssl+ listen 443 ssl+' ./nginx/sites/default.conf
     fi;
 fi;
 
