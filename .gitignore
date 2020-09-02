@@ -7,6 +7,6 @@
 *.swp
 Thumbs.db
 .env
-
+/test_project
 !.gitignore
 

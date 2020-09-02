@@ -11,13 +11,13 @@ else
 fi;
 
 #Certs emit process
-if [[ ${EMIT_LOCAL_SSL} < 1 ]]; then
+if [[ ${EMIT_LOCAL_SSL} -lt 1 ]]; then
     echo "Emitting local SSL certs was canceled by env config";
     exit 0;
 fi;
 
-mkdir -p /var/www/certs-local
-cd /var/www/certs-local
+mkdir -p /var/www/laradock/nginx/ssl
+cd /var/www/laradock/nginx/ssl
 
 if [[ ! -f rootCA.key ]]; then
     openssl genrsa -des3 -passout pass:1234 -out rootCA.key 2048
@@ -30,18 +30,18 @@ if [[ ! -f rootCA.pem ]]; then
         -passin pass:1234
 fi;
 
-if [[ ! -f server.csr ]]; then
+if [[ ! -f default.csr ]]; then
     openssl req -new -sha256 -nodes \
-        -out server.csr -newkey rsa:2048 \
-        -keyout server.key \
+        -out default.csr -newkey rsa:2048 \
+        -keyout default.key \
         -config /var/www/scripts/openssl-config/server.csr.cnf
 fi;
 
-if [[ ! -f server.crt ]]; then
-    openssl x509 -req -in server.csr \
+if [[ ! -f default.crt ]]; then
+    openssl x509 -req -in default.csr \
         -CA rootCA.pem \
         -CAkey rootCA.key \
-        -CAcreateserial -out server.crt \
+        -CAcreateserial -out default.crt \
         -days 500 -sha256 -extfile /var/www/scripts/openssl-config/v3.ext \
         -passin pass:1234
 fi;

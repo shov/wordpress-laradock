@@ -14,3 +14,4 @@ fi;
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
 cp -R "${SCRIPTPATH}/../scripts" "${PROJECT_PATH}"
+cp "${PROJECT_PATH}/scripts/.env-example" "${PROJECT_PATH}/scripts/.env"
