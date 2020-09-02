@@ -1,6 +1,8 @@
 # Overview
 [Laradock](http://laradock.io/) based docker environment for Wordpress site
 
+The project is being developed and for now the tool more like fixtures and a helper scripts for developers/ops. It helps roll-out a flexible infrastructure at the same time requiring knowledge to configure it right.
+
 # Install
 
 ### General
@@ -11,11 +13,9 @@ In order to run the scripts on Mac or Linux use the terminal, on Windows use [Gi
 
 The first step is cover (inject) an existing project / empty folder (of a project that will be implemented in a time) with the scripts.
 
-`./scripts/cover-a-project.sh ~/path/to/your/project`
+`./scripts/cover-a-project.sh ~/path/to/your/wordpress-project`
 
-Then if everything went smoothly get the project directory and place `/.env` file from the example:
-
-`cp ./scripts/.env-example ./scripts/.env`
+Then if everything went smoothly get the project directory and check `/scripts/.env` file
 
 Notice that if you about set up local environment, before install edit `.env` file. Set `EMIT_LOCAL_SSL=1` to get certs to use `https://localhost`, also change project name, email for emit etc. To turn on possibility of using XDebug, set `XDEBUG=1`. Check out WP version, if you need to install some specific, change it so.
 
@@ -42,7 +42,31 @@ To start and stop the containers:
 `./scripts/start-docker.sh`, 
 `./scripts/stop-docker.sh`
 
-**Actually it won't work without local ssl certs for now because nginx conf expects that certs files. Will fix it**
+### SSL for servers
+
+For localhost please read the next section.
+
+If you use a hosting like wp-engine you likely don't have to care about the infrastructure at all and should deploy only your code, so skip this section.
+
+Get the certs somehow, you will need to have certificate and privatekey, they could be `pem` files or `crt` and `key` that doesn't matter.
+
+They can be:
+* bought 
+* given by your administrator
+* emmit using for example `certbot` (`letsencrypt`), [check the documentation](https://certbot.eff.org/docs/using.html#certbot-commands) 
+
+Update `your-project/laradock/nginx/sites/default.conf`, edit it putting those lines and remove conflicting ones:
+
+```
+listen 443 ssl default_server;
+listen [::]:443 ssl default_server ipv6only=on;
+ssl_certificate /etc/nginx/ssl/default.crt;
+ssl_certificate_key /etc/nginx/ssl/default.key;
+```
+
+Place the certs into `your-project/laradock/nginx/ssl`, make sure they have correct permissions and names the same as for `default.conf`
+
+Docker containers have to be restarted to nginx uses the certs.
 
 ### Localhost needs more
 
@@ -54,13 +78,14 @@ Windows, using Google Chrome (seems like on Linux, but didn't check)
 * Under HTTPS/SSL click to "Manage Certificates"
 * Go to "Trusted Root Certificate Authorities"
 * Click to "Import"
+* Navigate to `your-project/laradock/nginx/ssl`
 * You probably can’t see `rootCA.pem` because there is a file extension filter, set it as `All files *.*`
 * There will be a pop up window that will ask you if you want to install this certificate. Click "yes".
 
 Mac:
 * Call Spotlight search and type 'Keychain Access', press Return.
 * Choose Category of Certificates
-* In top menu go File->Import Items… and pick up the sert (`rootCA.pem`)
+* In top menu go File->Import Items… and pick up the cert (`your-project/laradock/nginx/ssl/rootCA.pem`)
 * It should appear in the list as ‘<name of project from .env here>’, double click it
 * Expand section of Trust and set ‘Always Trust’, close the window, it’s going to require user password
 * Exit this app, done

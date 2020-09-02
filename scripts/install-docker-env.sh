@@ -84,10 +84,16 @@ if [[ -d 'laradock' ]]; then
 fi;
 
 #Laradock
-git clone https://github.com/laradock/laradock.git \
+git clone -b master --single-branch https://github.com/laradock/laradock.git \
 	&& cd laradock \
 	&& git checkout "${LARADOCK_VERSION}" \
   && < ./env-example sed "s+DATA_PATH_HOST=~/\.laradock/data+DATA_PATH_HOST=\./data+" > ./.env
+
+if hash winpty 2>/dev/null; then
+    sed -i "s+COMPOSE_PROJECT_NAME=laradock+COMPOSE_PROJECT_NAME=${PROJECT_NAME}+" ./.env
+else
+    sed -i '' "s+COMPOSE_PROJECT_NAME=laradock+COMPOSE_PROJECT_NAME=${PROJECT_NAME}+" ./.env
+fi;
 
 cp ../scripts/openssl-config/nginx-localhost.conf ./nginx/sites/default.conf
 
